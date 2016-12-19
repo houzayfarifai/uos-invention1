@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<!-- IE Compatibility Meta  -->
+   		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+   		<!-- Mobile Meta  -->
+   		<meta name="viewport" content="width=device-width, initial-scale=1">
+   		<!-- Some Ads -->
+   		<meta name="description" content="Uae National Day">
+		<meta name="keywords" content="uos invention , uos computer science">
+		<!-- for contact please visit this link =>  href="https://www.facebook.com/webdevh" -->
+		<meta name="author" content="Houzayfa Rifai">	
+		<link rel="icon" href="uos.png">
+		<title>UAE NATIONAL DAY</title>
+<style>
+	div img {display: inline-block;}
+	div#memory_board{
+    background: #CCC;
+    border: #999 1px solid;
+    width: 1100px;
+    height: 540px;
+    padding: 24px;
+    margin: 0px auto;
+}
+
+div#memory_board > div{
+    background: url(uos.png) no-repeat;
+    border: #000 1px solid;
+    width: 195px;
+    height: 117px;
+    float: left;
+    margin: 10px;
+    font-size: 64px;
+    cursor: pointer;
+    text-align:center;
+}
+ img {
+ 	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	background-size:cover;
+ 	width:100%;
+ 	height: 100%;
+ }
+ #time {
+ 	margin-top:7px; 
+ 	border: 1px solid red;
+ }
+ .timer {
+ 	margin-top:7px;
+ 	border:1px dashed red;
+ 	text-align:center;
+ 	font-size:20px;
+ }
+@media only screen and (max-width: 600px) {
+ 	div#memory_board{
+    background: #CCC;
+    border: #999 1px solid;
+    width: 535px;
+    height: 360px;
+    padding: 10px;
+    margin: 0px auto;
+}
+div#memory_board > div{
+    background: url(uos.png) no-repeat;
+    border: #000 1px solid;
+    width: 95px;
+    height: 80px;
+    float: left;
+    margin: 5px;
+    cursor: pointer;
+    text-align:center;
+}
+img {
+ 	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	background-size:cover;
+ 	width:100%;
+ 	height: 100%;
+ }
+ }
+</style>
+<script>
+var memory_array = ['do','do','maxresdefault','maxresdefault','o5UNwmIz_400x400','o5UNwmIz_400x400','uae-1','uae-1','uae','uae','uaenationalday','uaenationalday','uae-2','uae-2','uae-3','uae-3','dubai-logo','dubai-logo','UAE1','UAE1'];
+var memory_values = [];
+var memory_tile_ids = [];
+var tiles_flipped = 0;
+Array.prototype.memory_tile_shuffle = function(){
+    var i = this.length, j, temp;
+    while(--i > 0){
+        j = Math.floor(Math.random() * (i+1));
+        temp = this[j];
+        this[j] = this[i];
+        this[i] = temp;
+    }
+}
+function newBoard(){
+	tiles_flipped = 0;
+	var output = '';
+    memory_array.memory_tile_shuffle();
+	for(var i = 0; i < memory_array.length; i++){
+		output += '<div id="tile_'+i+'" onclick="memoryFlipTile(this,\''+memory_array[i]+'\')"></div>';
+	}
+	document.getElementById('memory_board').innerHTML = output;
+}
+function memoryFlipTile(tile,val){
+	if(tile.innerHTML == "" && memory_values.length < 2){
+		tile.style.background = '#FFF';
+		tile.innerHTML = '<img src="' + val + '.jpg"/>';
+		if(memory_values.length == 0){
+			memory_values.push(val);
+			memory_tile_ids.push(tile.id);
+		} else if(memory_values.length == 1){
+			memory_values.push(val);
+			memory_tile_ids.push(tile.id);
+			if(memory_values[0] == memory_values[1]){
+				tiles_flipped += 2;
+				// Clear both arrays
+				memory_values = [];
+            	memory_tile_ids = [];
+				// Check to see if the whole board is cleared
+				if(tiles_flipped == memory_array.length){
+					alert("Board cleared... generating new board");
+					document.getElementById('memory_board').innerHTML = "";
+					newBoard();
+				}
+			} else {
+				function flip2Back(){
+				    // Flip the 2 tiles back over
+				    var tile_1 = document.getElementById(memory_tile_ids[0]);
+				    var tile_2 = document.getElementById(memory_tile_ids[1]);
+				    tile_1.style.background = 'url(uos.png) no-repeat';
+            	    tile_1.innerHTML = "";
+				    tile_2.style.background = 'url(uos.png) no-repeat';
+            	    tile_2.innerHTML = "";
+				    // Clear both arrays
+				    memory_values = [];
+            	    memory_tile_ids = [];
+				}
+				setTimeout(flip2Back, 700);
+			}
+		}
+	}
+}
+</script>
+	<script>
+			function startTimer(duration, display) {
+			    var timer = duration, minutes, seconds;
+			    setInterval(function () {
+			        minutes = parseInt(timer / 60, 10);
+			        seconds = parseInt(timer % 60, 10);
+
+			        minutes = minutes < 10 ? "0" + minutes : minutes;
+			        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+			        display.textContent = minutes + ":" + seconds;
+
+			        if (--timer < 0) {
+			            timer = duration;
+			        }
+			    }, 1000);
+			}
+window.onload = function () {
+    var fiveMinutes = 45 * 1,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
+	</script>
+</head>
+<body>
+<div id="memory_board"></div>
+<body>
+    <div class = "timer">game will be closed in => <span id="time"></span>  seconds !</div>
+</body>
+</div>
+<script>newBoard();</script>
+<script>
+setTimeout(function(oops){ alert("ooops ! TimeOver "); }, 47000);
+</script>
+
+</body>
+</html>
